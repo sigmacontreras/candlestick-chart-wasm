@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remora</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <canvas id="chart" width="800" height="400"></canvas>
+    <script type="module">
+        import init, {
+            ChartCandle,
+            Data,
+            CandleColor,
+            ChartOptions,
+        } from "./pkg/chart_candle.js";
+
+        async function run() {
+            await init();
+
+            const canvas = document.getElementById("chart");
+
+            const options = ChartOptions.new(
+                10, // margin
+                5, // line_width
+                CandleColor.Red,
+                CandleColor.Green
+            );
+            const chart = new ChartCandle(canvas, options);
+            const data = [
+                { "open": 45.67, "high": 46.12, "low": 45.45, "close": 45.98 },
+                { "open": 46.02, "high": 46.25, "low": 45.80, "close": 46.15 },
+                { "open": 46.20, "high": 46.35, "low": 45.95, "close": 46.10 },
+                { "open": 46.10, "high": 46.20, "low": 45.85, "close": 45.95 },
+                { "open": 45.90, "high": 46.05, "low": 45.70, "close": 45.78 },
+                { "open": 45.75, "high": 46.00, "low": 45.65, "close": 45.92 },
+                { "open": 45.80, "high": 46.10, "low": 45.75, "close": 46.05 },
+                { "open": 46.00, "high": 46.20, "low": 45.85, "close": 46.15 },
+                { "open": 46.10, "high": 46.25, "low": 45.90, "close": 46.00 },
+                { "open": 46.05, "high": 46.30, "low": 45.95, "close": 46.25 },
+                { "open": 46.25, "high": 46.40, "low": 46.05, "close": 46.35 },
+                { "open": 46.30, "high": 46.45, "low": 46.10, "close": 46.20 },
+                { "open": 46.15, "high": 46.35, "low": 46.00, "close": 46.30 },
+                { "open": 46.20, "high": 46.40, "low": 46.05, "close": 46.10 },
+                { "open": 46.10, "high": 46.30, "low": 45.95, "close": 46.20 },
+                { "open": 46.25, "high": 46.45, "low": 46.10, "close": 46.30 },
+                { "open": 46.20, "high": 46.35, "low": 46.05, "close": 46.15 },
+                { "open": 46.15, "high": 46.30, "low": 46.00, "close": 46.10 },
+                { "open": 46.10, "high": 46.25, "low": 45.95, "close": 46.20 },
+                { "open": 46.05, "high": 46.20, "low": 45.85, "close": 46.10 },
+                { "open": 46.00, "high": 46.15, "low": 45.80, "close": 46.05 },
+                { "open": 45.95, "high": 46.10, "low": 45.75, "close": 45.90 },
+                { "open": 45.90, "high": 46.05, "low": 45.70, "close": 45.85 },
+                { "open": 45.85, "high": 46.00, "low": 45.65, "close": 45.80 },
+                { "open": 45.80, "high": 45.95, "low": 45.60, "close": 45.75 },
+                { "open": 45.70, "high": 45.85, "low": 45.50, "close": 45.65 },
+                { "open": 45.60, "high": 45.75, "low": 45.40, "close": 45.55 },
+                { "open": 45.50, "high": 45.65, "low": 45.30, "close": 45.45 },
+                { "open": 45.40, "high": 45.55, "low": 45.20, "close": 45.35 },
+                { "open": 45.35, "high": 45.50, "low": 45.15, "close": 45.25 },
+                { "open": 45.30, "high": 45.45, "low": 45.10, "close": 45.20 },
+                { "open": 45.25, "high": 45.40, "low": 45.05, "close": 45.15 },
+                { "open": 45.20, "high": 45.35, "low": 45.00, "close": 45.10 },
+                { "open": 45.15, "high": 45.30, "low": 44.95, "close": 45.05 },
+                { "open": 45.10, "high": 45.25, "low": 44.90, "close": 45.00 },
+                { "open": 45.05, "high": 45.20, "low": 44.85, "close": 44.95 },
+                { "open": 45.00, "high": 45.15, "low": 44.80, "close": 44.90 },
+                { "open": 44.95, "high": 45.10, "low": 44.75, "close": 44.85 },
+                { "open": 44.90, "high": 45.05, "low": 44.70, "close": 44.80 },
+                { "open": 44.85, "high": 45.00, "low": 44.65, "close": 44.75 },
+                { "open": 44.80, "high": 44.95, "low": 44.60, "close": 44.70 },
+                { "open": 44.75, "high": 44.90, "low": 44.55, "close": 44.65 },
+                { "open": 44.70, "high": 44.85, "low": 44.50, "close": 44.60 },
+                { "open": 44.65, "high": 44.80, "low": 44.45, "close": 44.55 },
+                { "open": 44.60, "high": 44.75, "low": 44.40, "close": 44.50 },
+                { "open": 44.55, "high": 44.70, "low": 44.35, "close": 44.45 },
+                { "open": 44.50, "high": 44.65, "low": 44.30, "close": 44.40 },
+                { "open": 44.45, "high": 44.60, "low": 44.25, "close": 44.35 },
+                { "open": 44.40, "high": 44.55, "low": 44.20, "close": 44.30 },
+                { "open": 44.35, "high": 44.50, "low": 44.15, "close": 44.25 },
+                { "open": 44.30, "high": 44.45, "low": 44.10, "close": 44.20 },
+                { "open": 44.25, "high": 44.40, "low": 44.05, "close": 44.15 },
+                { "open": 44.20, "high": 44.35, "low": 44.00, "close": 44.10 },
+                { "open": 44.15, "high": 44.30, "low": 43.95, "close": 44.05 },
+                { "open": 44.10, "high": 44.25, "low": 43.90, "close": 44.00 },
+                { "open": 44.05, "high": 44.20, "low": 43.85, "close": 43.95 },
+                { "open": 44.00, "high": 44.15, "low": 43.80, "close": 43.90 },
+                { "open": 43.95, "high": 44.10, "low": 43.75, "close": 43.85 },
+                { "open": 43.90, "high": 44.05, "low": 43.70, "close": 43.80 },
+                { "open": 43.85, "high": 44.00, "low": 43.65, "close": 43.75 },
+                { "open": 43.80, "high": 43.95, "low": 43.60, "close": 43.70 },
+                { "open": 43.75, "high": 43.90, "low": 43.55, "close": 43.65 },
+                { "open": 43.70, "high": 43.85, "low": 43.50, "close": 43.60 },
+                { "open": 43.65, "high": 43.80, "low": 43.45, "close": 43.55 },
+                { "open": 43.60, "high": 43.75, "low": 43.40, "close": 43.50 },
+                { "open": 43.55, "high": 43.70, "low": 43.35, "close": 43.45 },
+                { "open": 43.50, "high": 43.65, "low": 43.30, "close": 43.40 },
+                { "open": 43.45, "high": 43.60, "low": 43.25, "close": 43.35 },
+                { "open": 43.40, "high": 43.55, "low": 43.20, "close": 43.30 },
+                { "open": 43.35, "high": 43.50, "low": 43.15, "close": 43.25 },
+                { "open": 43.30, "high": 43.45, "low": 43.10, "close": 43.20 },
+                { "open": 43.25, "high": 43.40, "low": 43.05, "close": 43.15 },
+                { "open": 43.20, "high": 43.35, "low": 43.00, "close": 43.10 },
+                { "open": 43.15, "high": 43.30, "low": 42.95, "close": 43.05 },
+                { "open": 43.10, "high": 43.25, "low": 42.90, "close": 43.00 },
+                { "open": 43.05, "high": 43.20, "low": 42.85, "close": 42.95 },
+                { "open": 43.00, "high": 43.15, "low": 42.80, "close": 42.90 },
+                { "open": 42.95, "high": 43.10, "low": 42.75, "close": 42.85 },
+                { "open": 42.90, "high": 43.05, "low": 42.70, "close": 42.80 },
+                { "open": 42.85, "high": 43.00, "low": 42.65, "close": 42.75 },
+                { "open": 42.80, "high": 42.95, "low": 42.60, "close": 42.70 },
+                { "open": 42.75, "high": 42.90, "low": 42.55, "close": 42.65 },
+                { "open": 42.70, "high": 42.85, "low": 42.50, "close": 42.60 },
+                { "open": 42.65, "high": 42.80, "low": 42.45, "close": 42.55 },
+                { "open": 42.60, "high": 42.75, "low": 42.40, "close": 42.50 },
+                { "open": 42.55, "high": 42.70, "low": 42.35, "close": 42.45 },
+                { "open": 42.50, "high": 42.65, "low": 42.30, "close": 42.40 },
+                { "open": 42.45, "high": 42.60, "low": 42.25, "close": 42.35 },
+                { "open": 42.40, "high": 42.55, "low": 42.20, "close": 42.30 },
+                { "open": 42.35, "high": 42.50, "low": 42.15, "close": 42.25 },
+                { "open": 42.30, "high": 42.45, "low": 42.10, "close": 42.20 },
+                { "open": 42.25, "high": 42.40, "low": 42.05, "close": 42.15 },
+                { "open": 42.20, "high": 42.35, "low": 42.00, "close": 42.10 },
+                { "open": 42.15, "high": 42.30, "low": 41.95, "close": 42.05 },
+                { "open": 42.10, "high": 42.25, "low": 41.90, "close": 42.00 },
+                { "open": 42.05, "high": 42.20, "low": 41.85, "close": 41.95 },
+                { "open": 42.00, "high": 42.15, "low": 41.80, "close": 41.90 },
+                { "open": 41.95, "high": 42.10, "low": 41.75, "close": 41.85 },
+                { "open": 41.90, "high": 42.05, "low": 41.70, "close": 41.80 },
+                { "open": 41.85, "high": 42.00, "low": 41.65, "close": 41.75 },
+                { "open": 41.80, "high": 41.95, "low": 41.60, "close": 41.70 },
+                { "open": 41.75, "high": 41.90, "low": 41.55, "close": 41.65 },
+                { "open": 41.70, "high": 41.85, "low": 41.50, "close": 41.60 },
+                { "open": 41.65, "high": 41.80, "low": 41.45, "close": 41.55 },
+                { "open": 41.60, "high": 41.75, "low": 41.40, "close": 41.50 },
+                { "open": 41.55, "high": 41.70, "low": 41.35, "close": 41.45 },
+                { "open": 41.50, "high": 41.65, "low": 41.30, "close": 41.40 },
+                { "open": 41.45, "high": 41.60, "low": 41.25, "close": 41.35 },
+                { "open": 41.40, "high": 41.55, "low": 41.20, "close": 41.30 },
+                { "open": 41.35, "high": 41.50, "low": 41.15, "close": 41.25 },
+                { "open": 41.30, "high": 41.45, "low": 41.10, "close": 41.20 },
+                { "open": 41.25, "high": 41.40, "low": 41.05, "close": 41.15 },
+                { "open": 41.20, "high": 41.35, "low": 41.00, "close": 41.10 },
+                { "open": 41.15, "high": 41.30, "low": 40.95, "close": 41.05 },
+                { "open": 41.10, "high": 41.25, "low": 40.90, "close": 41.00 },
+                { "open": 41.05, "high": 41.20, "low": 40.85, "close": 40.95 },
+                { "open": 41.00, "high": 41.15, "low": 40.80, "close": 40.90 },
+                { "open": 40.95, "high": 41.10, "low": 40.75, "close": 40.85 },
+                { "open": 40.90, "high": 41.05, "low": 40.70, "close": 40.80 },
+                { "open": 40.85, "high": 41.00, "low": 40.65, "close": 40.75 },
+                { "open": 40.80, "high": 40.95, "low": 40.60, "close": 40.70 },
+                { "open": 40.75, "high": 40.90, "low": 40.55, "close": 40.65 },
+                { "open": 40.70, "high": 40.85, "low": 40.50, "close": 40.60 },
+                { "open": 40.65, "high": 40.80, "low": 40.45, "close": 40.55 },
+                { "open": 40.60, "high": 40.75, "low": 40.40, "close": 40.50 },
+                { "open": 40.55, "high": 40.70, "low": 40.35, "close": 40.45 },
+                { "open": 40.50, "high": 40.65, "low": 40.30, "close": 40.40 },
+                { "open": 40.45, "high": 40.60, "low": 40.25, "close": 40.35 },
+                { "open": 40.40, "high": 40.55, "low": 40.20, "close": 40.30 },
+                { "open": 40.35, "high": 40.50, "low": 40.15, "close": 40.25 },
+                { "open": 40.30, "high": 40.45, "low": 40.10, "close": 40.20 },
+                { "open": 40.25, "high": 40.40, "low": 40.05, "close": 40.15 },
+                { "open": 40.20, "high": 40.35, "low": 40.00, "close": 40.10 },
+                { "open": 40.15, "high": 40.30, "low": 39.95, "close": 40.05 },
+                { "open": 40.10, "high": 40.25, "low": 39.90, "close": 40.00 },
+                { "open": 40.05, "high": 40.20, "low": 39.85, "close": 39.95 },
+                { "open": 40.00, "high": 40.15, "low": 39.80, "close": 39.90 }
+            ]
+            const formattedData = await data.map((e) => {
+                return { low: e.low, high: e.high, open: e.open, close: e.close }
+            })
+            chart.set_data(formattedData);
+            chart.draw();
+        }
+
+        run();
+
+    </script>
+</body>
+
+</html>
